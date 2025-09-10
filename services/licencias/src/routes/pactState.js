@@ -1,8 +1,5 @@
-import { Router } from "express";
-const router = Router();
-
 export default (pool) => {
-    router.post("/", async (req, res) => {
+    return async (req, res) => {
         const { state } = req.body;
 
         try {
@@ -36,7 +33,5 @@ export default (pool) => {
             console.error(err);
             return res.status(500).json({ error: "INTERNAL" });
         }
-    });
-
-    return router;
+    };
 };
