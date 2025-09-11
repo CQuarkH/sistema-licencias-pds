@@ -1,0 +1,70 @@
+{
+  "consumer": {
+    "name": "PortalPaciente"
+  },
+  "interactions": [
+    {
+      "description": "a request for licenses for patient 11111111-1",
+      "providerState": "patient 11111111-1 has issued license folio L-1001",
+      "request": {
+        "headers": {
+          "Accept": "application/json"
+        },
+        "method": "GET",
+        "path": "/licenses",
+        "query": "patientId=11111111-1"
+      },
+      "response": {
+        "body": [
+          {
+            "days": 7,
+            "diagnosis": "Gripe",
+            "doctorId": "D-100",
+            "folio": "L-1001",
+            "patientId": "11111111-1",
+            "startDate": "2025-09-10",
+            "status": "issued"
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request for licenses for patient 22222222-2",
+      "providerState": "no licenses for patient 22222222-2",
+      "request": {
+        "headers": {
+          "Accept": "application/json"
+        },
+        "method": "GET",
+        "path": "/licenses",
+        "query": "patientId=22222222-2"
+      },
+      "response": {
+        "body": [],
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "15.0.1"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "provider": {
+    "name": "LicenciasService"
+  }
+}

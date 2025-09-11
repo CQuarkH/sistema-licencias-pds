@@ -1,0 +1,56 @@
+{
+  "consumer": {
+    "name": "ValidadorAseguradora"
+  },
+  "interactions": [
+    {
+      "description": "a request to verify existing license L-1001",
+      "providerState": "patient 11111111-1 has issued license folio L-1001",
+      "request": {
+        "method": "GET",
+        "path": "/licenses/L-1001/verify"
+      },
+      "response": {
+        "body": {
+          "valid": true
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request to verify non-existing license L-404",
+      "providerState": "license L-404 does not exist",
+      "request": {
+        "method": "GET",
+        "path": "/licenses/L-404/verify"
+      },
+      "response": {
+        "body": {
+          "valid": false
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 404
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "15.0.1"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "provider": {
+    "name": "LicenciasService"
+  }
+}

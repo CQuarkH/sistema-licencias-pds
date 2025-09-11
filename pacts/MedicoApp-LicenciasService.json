@@ -1,0 +1,82 @@
+{
+  "consumer": {
+    "name": "MedicoApp"
+  },
+  "interactions": [
+    {
+      "description": "a request to create a license with invalid days (0)",
+      "providerState": "issued license days>0 is creatable",
+      "request": {
+        "body": {
+          "days": 0,
+          "diagnosis": "Gripe",
+          "doctorId": "D-100",
+          "patientId": "11111111-1",
+          "startDate": "2025-09-10"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/licenses"
+      },
+      "response": {
+        "body": {
+          "error": "INVALID_DAYS"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 400
+      }
+    },
+    {
+      "description": "a request to create a license with valid days",
+      "providerState": "issued license days>0 is creatable",
+      "request": {
+        "body": {
+          "days": 7,
+          "diagnosis": "Gripe",
+          "doctorId": "D-100",
+          "patientId": "11111111-1",
+          "startDate": "2025-09-10"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/licenses"
+      },
+      "response": {
+        "body": {
+          "days": 7,
+          "diagnosis": "Gripe",
+          "doctorId": "D-100",
+          "folio": "L-1001",
+          "patientId": "11111111-1",
+          "startDate": "2025-09-10",
+          "status": "issued"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 201
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "15.0.1"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "provider": {
+    "name": "LicenciasService"
+  }
+}
