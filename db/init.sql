@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS licenciasdb;
+DROP DATABASE IF EXISTS licenciasdb;
+CREATE DATABASE licenciasdb;
 USE licenciasdb;
 
 CREATE TABLE IF NOT EXISTS licenses (
@@ -11,3 +12,4 @@ CREATE TABLE IF NOT EXISTS licenses (
   days INT,
   status VARCHAR(20)
 );
+
