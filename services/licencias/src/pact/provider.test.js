@@ -6,13 +6,14 @@ const opts = {
     provider: 'Licencias',
     providerBaseUrl: 'http://localhost:3001',
     pactUrls: [
-        resolve(process.cwd(), './pacts/medicoapp-licencias.json'),
-        resolve(process.cwd(), './pacts/portalpaciente-licencias.json'),
-        resolve(process.cwd(), './pacts/validadoraseguradora-licencias.json')
+        resolve(process.cwd(), '../../pacts/MedicoApp-LicenciasService.json'),
+        resolve(process.cwd(), '../../pacts/PortalPaciente-LicenciasService.json'),
+        resolve(process.cwd(), '../../pacts/ValidadorAseguradora-LicenciasService.json')
     ],
     providerStatesSetupUrl: 'http://localhost:3001/_pactState',
     publishVerificationResult: false,
     logLevel: 'info',
+    providerVersion: '1.0.0',
     timeout: 30000
 };
 

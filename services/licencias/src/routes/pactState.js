@@ -7,7 +7,10 @@ export default (pool) => {
                 case "patient 11111111-1 has issued license folio L-1001":
                     await pool.query("DELETE FROM licenses WHERE folio='L-1001'");
                     await pool.query(
-                        "INSERT INTO licenses (folio, patientId, doctorId, diagnosis, startDate, days, status) VALUES ('L-1001','11111111-1','DR-1001','seed - issued',CURDATE(),7,'issued')"
+                        `INSERT INTO licenses 
+              (folio, patientId, doctorId, diagnosis, startDate, days, status) 
+             VALUES 
+              ('L-1001', '11111111-1', 'D-100', 'Gripe', '2025-09-10', 7, 'issued')`
                     );
                     break;
 
