@@ -1,0 +1,19 @@
+# consumer-tests/Dockerfile.consumer-tests
+FROM node:18-bullseye-slim
+
+WORKDIR /app
+
+# Copiar package.json y package-lock si quieres, pero NO forzar npm ci
+COPY package*.json ./
+
+# Instalar dependencias dentro del contenedor Linux para obtener los paquetes nativos correctos
+RUN npm install
+
+# Copiar el resto del código
+COPY . .
+
+# Crear carpetas necesarias
+RUN mkdir -p /app/logs /pacts
+
+# Comando por defecto
+CMD ["npm", "test"]

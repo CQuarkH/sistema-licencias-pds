@@ -1,0 +1,5 @@
+services:
+  consumer-tests:
+    build:
+      context: ./consumer-tests
+      dockerfile: Dockerfile.consumer-tests
