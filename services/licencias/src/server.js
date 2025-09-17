@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { json } from "express";
 import cors from "cors";
 import { createPool } from "mysql2/promise";
@@ -11,8 +12,9 @@ async function startServer() {
     const pool = await createPool({
         host: process.env.DB_HOST || "localhost",
         user: process.env.DB_USER || "root",
-        password: process.env.DB_PASS || "root",
-        database: process.env.DB_NAME || "licenciasdb"
+        password: process.env.DB_PASS || "pepito",
+        database: process.env.DB_NAME || "licenciasdb",
+        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
     });
 
     const app = express();
