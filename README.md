@@ -6,9 +6,8 @@ Sistema de microservicios para gestión de licencias médicas con integración e
 
 ### 1. Iniciar Servicios
 ```bash
-# Levantar todos los servicios con Docker
-cd docker
-docker-compose up -d
+# Levantar todos los servicios con Docker (Desde la raiz del proyecto)
+docker-compose --env-file .env -f docker/docker-compose.yml up --build
 
 # Verificar que todos estén corriendo
 docker-compose ps
