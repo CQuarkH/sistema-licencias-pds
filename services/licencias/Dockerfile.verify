@@ -1,0 +1,21 @@
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Instalar curl y wait-for-it
+RUN apk add --no-cache curl bash
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
+
+# Copiar archivos de dependencias
+COPY package*.json ./
+
+# Instalar dependencias
+RUN npm install
+
+# Copiar código fuente
+COPY . .
+
+# Comando para verificar contratos Pact
+CMD ["npm", "run", "pact:verify"]

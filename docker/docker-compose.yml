@@ -1,54 +1,5 @@
 services:
-  mysql:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-    ports:
-      - "${DB_PORT}:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ../db/init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-
-  portal-paciente:
+  consumer-tests:
     build:
-      context: ../services/pacientes
-      dockerfile: Dockerfile
-    ports:
-      - "${PORTAL_PACIENTE_PORT}:${PORTAL_PACIENTE_PORT}"
-    environment:
-      - PORTAL_PACIENTE_PORT=${PORTAL_PACIENTE_PORT}
-      - DB_HOST=mysql
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - PORTAL_PACIENTE_DB=${PORTAL_PACIENTE_DB}
-      - DB_PORT=3306
-      - LICENCIAS_URL=http://licencias:${LICENCIAS_PORT}
-    depends_on:
-      mysql:
-        condition: service_healthy
-
-  validador-aseguradora:
-    build:
-      context: ../services/doctores
-      dockerfile: Dockerfile
-    ports:
-      - "${VALIDADOR_ASEGURADORA_PORT}:${VALIDADOR_ASEGURADORA_PORT}"
-    environment:
-      - VALIDADOR_ASEGURADORA_PORT=${VALIDADOR_ASEGURADORA_PORT}
-      - DB_HOST=mysql
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - VALIDADOR_ASEGURADORA_DB=${VALIDADOR_ASEGURADORA_DB}
-      - DB_PORT=3306
-      - LICENCIAS_URL=http://licencias:${LICENCIAS_PORT}
-    depends_on:
-      mysql:
-        condition: service_healthy
-
-volumes:
-  mysql_data:
+      context: ./consumer-tests
+      dockerfile: Dockerfile.consumer-tests

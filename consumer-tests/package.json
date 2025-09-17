@@ -1,0 +1,19 @@
+{
+  "name": "consumers-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand --detectOpenHandles",
+    "pacts:clean": "rm -rf ../pacts/* || true"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@pact-foundation/pact": "^15.0.1",
+    "jest": "^30.1.3",
+    "jest-circus": "^30.1.3",
+    "supertest": "^7.1.4"
+  }
+}
