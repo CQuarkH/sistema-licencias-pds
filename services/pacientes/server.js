@@ -1,7 +1,9 @@
-require('dotenv').config({ path: '../../.env' });
-const express = require('express');
-const cors = require('cors');
-const mysql = require('mysql2/promise');
+import { config } from "dotenv";
+config({ path: "../../.env" });
+import express from "express";
+import cors from "cors";
+import mysql from "mysql2/promise";
+import process from "node:process";
 
 const app = express();
 const PORT = process.env.PORTAL_PACIENTE_PORT || 3002;
@@ -14,7 +16,7 @@ const dbConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.PORTAL_PACIENTE_DB,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
 };
 
 let db;
@@ -30,45 +32,47 @@ async function initDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('Database initialized');
+    console.log("Database initialized");
   } catch (error) {
-    console.error('Database connection failed:', error);
+    console.error("Database connection failed:", error);
   }
 }
 
 async function callLicenciasService(endpoint) {
   const licenciasBaseUrl = process.env.LICENCIAS_URL;
-  
+
   try {
-    const fetch = (await import('node-fetch')).default;
+    const fetch = (await import("node-fetch")).default;
     const response = await fetch(`${licenciasBaseUrl}${endpoint}`);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     return await response.json();
   } catch (error) {
-    console.error('Error calling Licencias service:', error);
+    console.error("Error calling Licencias service:", error);
     throw error;
   }
 }
 
-app.get('/patient/:patientId/licenses', async (req, res) => {
+app.get("/patient/:patientId/licenses", async (req, res) => {
   try {
     const { patientId } = req.params;
-    
-    const licenses = await callLicenciasService(`/licenses?patientId=${patientId}`);
-    
+
+    const licenses = await callLicenciasService(
+      `/licenses?patientId=${patientId}`,
+    );
+
     res.json(licenses);
   } catch (error) {
-    console.error('Error fetching patient licenses:', error);
-    res.status(500).json({ error: 'INTERNAL_ERROR' });
+    console.error("Error fetching patient licenses:", error);
+    res.status(500).json({ error: "INTERNAL_ERROR" });
   }
 });
 
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'portal-paciente' });
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", service: "portal-paciente" });
 });
 
 app.listen(PORT, () => {
@@ -76,4 +80,5 @@ app.listen(PORT, () => {
   initDatabase();
 });
 
-module.exports = app;
+export default app;
+

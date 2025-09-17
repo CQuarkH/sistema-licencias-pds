@@ -1,5 +1,81 @@
-# Tarea: Pruebas de Contrato en Microservicios
-Pruebas de Software
+# Sistema de Licencias Médicas
+
+Sistema de microservicios para gestión de licencias médicas con integración entre servicios.
+
+## Inicio Rápido
+
+### 1. Iniciar Servicios
+```bash
+# Levantar todos los servicios con Docker
+cd docker
+docker-compose up -d
+
+# Verificar que todos estén corriendo
+docker-compose ps
+```
+
+## Endpoints para Probar
+
+### Servicio de Licencias (Puerto 3001)
+
+**Crear una licencia:**
+```http
+POST http://localhost:3001/licenses
+Content-Type: application/json
+
+{
+  "patientId": "12345",
+  "diagnosis": "Diabetes",
+  "treatment": "Metformina",
+  "doctorId": "DOC001"
+}
+```
+
+**Obtener todas las licencias:**
+```http
+GET http://localhost:3001/licenses
+```
+
+**Obtener licencia específica:**
+```http
+GET http://localhost:3001/licenses/1
+```
+
+**Verificar licencia:**
+```http
+GET http://localhost:3001/licenses/L-1001/verify
+```
+
+### Portal Paciente (Puerto 3002)
+
+**Obtener licencias de un paciente:**
+```http
+GET http://localhost:3002/patient/12345/licenses
+```
+
+**Health check:**
+```http
+GET http://localhost:3002/health
+```
+
+### Validador Aseguradora (Puerto 3003)
+
+**Validar una licencia:**
+```http
+GET http://localhost:3003/insurer/licenses/L-1001/verify
+```
+
+**Obtener licencias de un paciente:**
+```http
+GET http://localhost:3003/insurer/patients/12345/licenses
+```
+
+**Health check:**
+```http
+GET http://localhost:3003/health
+```
+
+---
 
 # Ejecución de Consumer Tests (Pact)
 
@@ -22,3 +98,5 @@ npm test
 Limpiar los contratos generados
 
 npm run pacts:clean
+
+---
