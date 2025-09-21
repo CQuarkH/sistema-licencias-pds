@@ -1,8 +1,10 @@
+version: '3.8'
+
 services:
   mysql:
     image: mysql:8.0
     env_file:
-      - ../.env
+      - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -20,8 +22,10 @@ services:
     build:
       context: ../services/licencias
       dockerfile: Dockerfile
+    volumes:
+      - ../pacts:/app/pacts:ro
     env_file:
-      - ../.env
+      - .env
     ports:
       - "${LICENCIAS_PORT}:3001"
     environment:
@@ -40,15 +44,15 @@ services:
       context: ../services/pacientes
       dockerfile: Dockerfile
     env_file:
-      - ../.env
+      - .env
     ports:
-      - "${PORTAL_PACIENTE_PORT}:${PORTAL_PACIENTE_PORT}"
+      - "${PORTAL_PACIENTE_PORT}:3002"
     environment:
-      - PORTAL_PACIENTE_PORT=${PORTAL_PACIENTE_PORT}
+      - PORT=3002
       - DB_HOST=mysql
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - PORTAL_PACIENTE_DB=${PORTAL_PACIENTE_DB}
+      - DB_NAME=${PORTAL_PACIENTE_DB}
       - DB_PORT=3306
       - LICENCIAS_URL=http://licencias:3001
     depends_on:
@@ -62,15 +66,15 @@ services:
       context: ../services/doctores
       dockerfile: Dockerfile
     env_file:
-      - ../.env
+      - .env
     ports:
-      - "${VALIDADOR_ASEGURADORA_PORT}:${VALIDADOR_ASEGURADORA_PORT}"
+      - "${VALIDADOR_ASEGURADORA_PORT}:3003"
     environment:
-      - VALIDADOR_ASEGURADORA_PORT=${VALIDADOR_ASEGURADORA_PORT}
+      - PORT=3003
       - DB_HOST=mysql
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - VALIDADOR_ASEGURADORA_DB=${VALIDADOR_ASEGURADORA_DB}
+      - DB_NAME=${VALIDADOR_ASEGURADORA_DB}
       - DB_PORT=3306
       - LICENCIAS_URL=http://licencias:3001
     depends_on:
@@ -83,15 +87,31 @@ services:
     build:
       context: ../consumer-tests
       dockerfile: Dockerfile.consumer-tests
+    volumes:
+      - ../pacts:/app/pacts
     env_file:
-      - ../.env
+      - .env
     environment:
-      - PORTAL_PACIENTE_URL=http://portal-paciente:${PORTAL_PACIENTE_PORT}
-      - VALIDADOR_ASEGURADORA_URL=http://validador-aseguradora:${VALIDADOR_ASEGURADORA_PORT}
+      - PORTAL_PACIENTE_URL=http://portal-paciente:3002
+      - VALIDADOR_ASEGURADORA_URL=http://validador-aseguradora:3003
       - LICENCIAS_URL=http://licencias:3001
     depends_on:
       - portal-paciente
       - validador-aseguradora
+      - licencias
+
+  verify-licencias:
+    build:
+      context: ../services/licencias
+      dockerfile: Dockerfile.verify
+    volumes:
+      - ../pacts:/app/pacts:ro
+    env_file:
+      - .env
+    environment:
+      - LICENCIAS_URL=http://licencias:3001
+    depends_on:
+      - consumer-tests
       - licencias
 
 volumes:
