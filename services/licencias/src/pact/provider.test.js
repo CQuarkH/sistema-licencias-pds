@@ -4,13 +4,13 @@ import { resolve } from 'path';
 // Configuración para verificar el proveedor Licencias
 const opts = {
     provider: 'LicenciasService',
-    providerBaseUrl: process.env.LICENCIAS_URL || 'http://localhost:3001',
+    providerBaseUrl: process.env.LICENCIAS_URL || 'http://licencias:3001',
     pactUrls: [
         resolve(process.cwd(), 'pacts/MedicoApp-LicenciasService.json'),
         resolve(process.cwd(), 'pacts/PortalPaciente-LicenciasService.json'),
         resolve(process.cwd(), 'pacts/ValidadorAseguradora-LicenciasService.json')
     ],
-    providerStatesSetupUrl: `${process.env.LICENCIAS_URL || 'http://localhost:3001'}/_pactState`,
+    providerStatesSetupUrl: `${process.env.LICENCIAS_URL || 'http://licencias:3001'}/_pactState`,
     publishVerificationResult: false,
     logLevel: 'info',
     providerVersion: '1.0.0',

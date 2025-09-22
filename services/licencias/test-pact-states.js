@@ -1,7 +1,7 @@
 // test-pact-states.js
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = process.env.LICENCIAS_URL || 'http://licencias:3001';
 
 async function testPactState(stateName, verificationCallback) {
     console.log(`\n🧪 Testing provider state: "${stateName}"`);
