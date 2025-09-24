@@ -88,7 +88,7 @@ services:
       context: ../consumer-tests
       dockerfile: Dockerfile.consumer-tests
     volumes:
-      - ../pacts:/app/pacts
+      - ../pacts:/pacts
     env_file:
       - .env
     environment:
