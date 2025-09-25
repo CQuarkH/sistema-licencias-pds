@@ -99,3 +99,24 @@ Limpiar los contratos generados
 npm run pacts:clean
 
 ---
+
+# Verificación de Contratos en Providers
+
+# Limpiar servicios y contratos previos
+docker compose down -v
+Remove-Item -Recurse -Force ..\pacts\*   # (Windows PowerShell)
+
+# Levantar servicios
+docker compose --env-file .env up --build -d
+
+# Verificar que todos los servicios estén corriendo
+docker compose ps
+
+# Listar contratos generados
+dir ..\pacts
+
+# Ejecutar verificación en provider "licencias"
+docker compose run --rm verify-licencias npm test
+
+# Detener y limpiar todo
+docker compose down -v
